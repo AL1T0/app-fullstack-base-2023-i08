@@ -341,6 +341,7 @@ Query SQL empleada:
     En caso de que la operación falle debido a que el dispositivo no existe u otro motivo, el *status code* de respuesta será 400.
     
 5. Endpoint para crear un nuevo dispositivo.
+
     URL: http://localhost:8000/devices
 
 ```json
@@ -363,8 +364,8 @@ Query SQL empleada:
     
 6. Endpoint para modificar un dispositivo específico a partir de su ID.
 
-   URL: http://localhost:8000/devices/:id
-   Ejemplo: http://localhost:8000/devices/8
+    URL: http://localhost:8000/devices/:id
+    Ejemplo: http://localhost:8000/devices/8
 
 ```json
 {
