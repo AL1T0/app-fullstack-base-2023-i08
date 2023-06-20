@@ -240,10 +240,10 @@ En el archivo *index.js* que se encuentra en la raíz de la carpeta "backend" es
 8. Eliminar un dispositivo
 
 Cada endpoint hace una validación inicial de y devuelve al frontend los siguientes códigos, junto con un mensaje descriptivo:
-    * 400: error de comunicación a la base de datos u otro tipo de error según la operación
-    * 401: usuario no existente
-    * 200: operación realizada con éxito
-    * 201: dato insertado a la base de datos con éxito
+* 400: error de comunicación a la base de datos u otro tipo de error según la operación
+* 401: usuario no existente
+* 200: operación realizada con éxito
+* 201: dato insertado a la base de datos con éxito
 
 <details><summary><b>Ver los endpoints disponibles</b></summary><br>
 1. Endpoint para validar el login de un usuario.
@@ -269,7 +269,7 @@ Query SQL empleada:
     En caso de que la operación falle el *status code* de respuesta será 401, con el mensaje "Error". 
 
 2. Endpoint para crear un usuario nuevo.
-    
+
     URL: http://localhost:8000/users/
 
 ```json
@@ -341,7 +341,7 @@ Query SQL empleada:
     En caso de que la operación falle debido a que el dispositivo no existe u otro motivo, el *status code* de respuesta será 400.
     
 5. Endpoint para crear un nuevo dispositivo.
-    
+
     URL: http://localhost:8000/devices
 
 ```json
@@ -349,7 +349,7 @@ Query SQL empleada:
     "method": "post",
     "request_headers": "application/json",
     "response_code": 200,
-    "payload": { name: "Example", description: "Example", type: 1, state: 0 },
+    "payload": {"name": "Example", "description": "Example", "type": 1, "state": 0},
     "request_response": {"id": 8},
 }
 ```
@@ -372,7 +372,7 @@ Query SQL empleada:
     "method": "put",
     "request_headers": "application/json",
     "response_code": 200,
-    "payload": { id: 8, name: "Example", description: "Example", type: 2, state: 0 },
+    "payload": { "id": 8, "name": "Example", "description": "Example", "type": 2, "state": 0 },
     "request_response": {"changedRows": 1},
 }
 ```
@@ -395,7 +395,7 @@ Query SQL empleada:
     "method": "put",
     "request_headers": "application/json",
     "response_code": 200,
-    "payload": { id: 8, state: 20 },
+    "payload": { "id": 8, "state": 20 },
     "request_response": {"changedRows": 1},
 }
 ```
