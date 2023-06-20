@@ -248,44 +248,46 @@ Cada endpoint hace una validación inicial de y devuelve al frontend los siguien
     
     URL: http://localhost:8000/users/login
 
-    ```json
-    {
-        "method": "post",
-        "request_headers": "application/json",
-        "response_code": 200,
-        "username": "exampleuser",
-        "password": "examplepassword"
-    }
-    ```
+```json
+{
+    "method": "post",
+    "request_headers": "application/json",
+    "response_code": 200,
+    "username": "exampleuser",
+    "password": "examplepassword"
+}
+```
 
-    Query SQL empleada:    
-    ```sql
-        SELECT * FROM `Users` WHERE username = ? AND password = ?
-    ```
-    
-    El *status code* de respuesta en caso de éxito será 200, con el mensaje "Ok". En caso de que la operación falle el *status code* de respuesta será 401, con el mensaje "Error". 
+Query SQL empleada:    
+```sql
+    SELECT * FROM `Users` WHERE username = ? AND password = ?
+```
+
+    El *status code* de respuesta en caso de éxito será 200, con el mensaje "Ok". 
+    En caso de que la operación falle el *status code* de respuesta será 401, con el mensaje "Error". 
 
 2. Endpoint para crear un usuario nuevo.
     
     URL: http://localhost:8000/users/
 
-    ```json
-    {
-        "method": "post",
-        "request_headers": "application/json",
-        "response_code": 200,
-        "username": "exampleuser",
-        "password": "examplepassword",
-        "type": "1"
-    }
-    ```
+```json
+{
+    "method": "post",
+    "request_headers": "application/json",
+    "response_code": 200,
+    "username": "exampleuser",
+    "password": "examplepassword",
+    "type": "1"
+}
+```
 
-    Query SQL empleada:    
-    ```sql
-        INSERT INTO `Users` (`username`, `password`, `type`) VALUES (?, ?, ?)
-    ```
+Query SQL empleada:    
+```sql
+    INSERT INTO `Users` (`username`, `password`, `type`) VALUES (?, ?, ?)
+```
     
-    El *status code* de respuesta en caso de éxito será 201, con el mensaje "Usuario creado correctamente". En caso de que la operación falle el *status code* de respuesta será 400. 
+    El *status code* de respuesta en caso de éxito será 201, con el mensaje "Usuario creado correctamente". 
+    En caso de que la operación falle el *status code* de respuesta será 400. 
 
 
 3. Endpoint para obtener todos los dispositivos.
@@ -293,26 +295,27 @@ Cada endpoint hace una validación inicial de y devuelve al frontend los siguien
     URL: http://localhost:8000/devices
     Content-Type: application/json
 
-    ```json
-    {
-        "method": "get",
-        "request_headers": "application/json",
-        "response_code": 200,
-        "request_response": [
-                {"id":1,"name":"Lampara 1","description":"Luz living","state":1,"type":1},
-                {"id":2,"name":"Lampara 2","description":"Luz cocina","state":0,"type":1},
-                ...
-                {"id":7,"name":"Velador 2","description":"Velador de la habitación.","state":0,"type":1}
-         ]
-    }
-    ```
+```json
+{
+    "method": "get",
+    "request_headers": "application/json",
+    "response_code": 200,
+    "request_response": [
+            {"id":1,"name":"Lampara 1","description":"Luz living","state":1,"type":1},
+            {"id":2,"name":"Lampara 2","description":"Luz cocina","state":0,"type":1},
+            ...
+            {"id":7,"name":"Velador 2","description":"Velador de la habitación.","state":0,"type":1}
+        ]
+}
+```
 
-    Query SQL empleada:    
-    ```sql
-        SELECT * FROM Devices
-    ```
+Query SQL empleada:    
+```sql
+    SELECT * FROM Devices
+```
     
-    El *status code* de respuesta en caso de éxito será 200. En caso de que la operación falle el *status code* de respuesta será 400. 
+    El *status code* de respuesta en caso de éxito será 200. 
+    En caso de que la operación falle el *status code* de respuesta será 400. 
     
 4. Endpoint para obtener un dispositivo específico a partir de su ID.
 
@@ -329,11 +332,11 @@ Cada endpoint hace una validación inicial de y devuelve al frontend los siguien
 ```
 
 Query SQL empleada:
-
 ```sql
     SELECT * FROM Devices WHERE id = ?
 ```
-    El *status code* de respuesta en caso de éxito será 200. En caso de que la operación falle debido a que el dispositivo no existe u otro motivo, el *status code* de respuesta será 400.
+    El *status code* de respuesta en caso de éxito será 200. 
+    En caso de que la operación falle debido a que el dispositivo no existe u otro motivo, el *status code* de respuesta será 400.
     
 5. Endpoint para crear un nuevo dispositivo.
     
@@ -354,12 +357,12 @@ Query SQL empleada:
     INSERT INTO `Devices` (`name`, `description`, `state`, `type`) VALUES (?, ?, ?, ?)
 ```
     
-    El *status code* de respuesta en caso de éxito será 201. En caso de que la operación falle debido a que el dispositivo no existe u otro motivo, el *status code* de respuesta será 400.
+    El *status code* de respuesta en caso de éxito será 201. 
+    En caso de que la operación falle debido a que el dispositivo no existe u otro motivo, el *status code* de respuesta será 400.
     
 6. Endpoint para modificar un dispositivo específico a partir de su ID.
     
     URL: http://localhost:8000/devices/:id
-    
     Ejemplo: http://localhost:8000/devices/8
 
 ```json
@@ -377,12 +380,12 @@ Query SQL empleada:
     UPDATE `Devices` SET `name` = ?, `description` = ? , `type` = ? WHERE `id` = ?
 ```
 
-    El *status code* de respuesta en caso de éxito será 200. En caso de que la operación falle debido a que el dispositivo no existe u otro motivo, el *status code* de respuesta será 400.
+    El *status code* de respuesta en caso de éxito será 200. 
+    En caso de que la operación falle debido a que el dispositivo no existe u otro motivo, el *status code* de respuesta será 400.
 
 7- Endpoint para cambiar el estado de un dispositivo.
     
     URL: http://localhost:8000/devices/:id
-    
     Ejemplo: http://localhost:8000/devices/8
     
 ```json
@@ -400,12 +403,12 @@ Query SQL empleada:
     UPDATE `Devices` SET `state` = ? WHERE `id` = ?
 ```
 
-    El *status code* de respuesta en caso de éxito será 200. En caso de que la operación falle debido a que el dispositivo no existe u otro motivo, el *status code* de respuesta será 400.
+    El *status code* de respuesta en caso de éxito será 200. 
+    En caso de que la operación falle debido a que el dispositivo no existe u otro motivo, el *status code* de respuesta será 400.
 
 8- Endpoint para eliminar un dispositivo específico a partir de su id.
     
     URL: http://localhost:8000devices/:id
-    
     Ejemplo: http://localhost:8000/devices/8
     
 ```json
@@ -422,7 +425,8 @@ Query SQL empleada:
     DELETE FROM Devices WHERE id = ?
 ```
     
-    El *status code* de respuesta en caso de éxito será 200. En caso de que la operación falle debido a que el dispositivo no existe u otro motivo, el *status code* de respuesta será 400.
+    El *status code* de respuesta en caso de éxito será 200. 
+    En caso de que la operación falle debido a que el dispositivo no existe u otro motivo, el *status code* de respuesta será 400.
 
 </details>
 
