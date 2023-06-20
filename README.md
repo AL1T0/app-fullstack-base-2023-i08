@@ -153,6 +153,7 @@ En la siguiente ilustración podés ver cómo está organizado el proyecto para 
 En esta sección podés ver los detalles específicos de funcionamiento del código y que son los siguientes.
 
 <details><summary><b>Mira los detalles de implementación</b></summary><br>
+
 **Tipos de dispositivos**
 La aplicación soporta 2 tipos de dispositivos:
 1. Luces
