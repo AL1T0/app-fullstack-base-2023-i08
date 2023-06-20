@@ -40,21 +40,32 @@ CREATE TABLE `Devices` (
   `type` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+
+-- Crea la tabla de usuarios
+CREATE TABLE `Users` (
+  `id` int(11) NOT NULL,
+  `username` VARCHAR(255) UNIQUE NOT NULL,
+  `password` VARCHAR(255) NOT NULL,
+  `type` int(1) NOT NULL DEFAULT 1
+);
+
 --
 -- Dumping data for table `Devices`
 --
 
 INSERT INTO `Devices` (`id`, `name`, `description`, `state`, `type`) VALUES
-(1, 'Lampara 1', 'Luz living', 1, 0),
-(2, 'Lampara 2', 'Luz cocina', 0, 0),
-(3, 'Velador', 'Velador living', 1, 0),
-(4, 'Persiana 1', 'Persiana living', 1, 1),
-(5, 'Persiana 2', 'Persiana de la cocina', 1, 1),
-(6, 'Persiana 3', 'Persiana balcon', 0, 1);
+(1, 'Lampara 1', 'Luz living', 1, 1),
+(2, 'Lampara 2', 'Luz cocina', 0, 1),
+(3, 'Velador', 'Velador living', 1, 1),
+(4, 'Persiana 1', 'Persiana living', 1, 2),
+(5, 'Persiana 2', 'Persiana de la cocina', 1, 2),
+(6, 'Persiana 3', 'Persiana balcon', 0, 2);
 
---
--- Indexes for dumped tables
---
+
+-- Inserta usuarios de ejemplo
+INSERT INTO Users (`id`, `username`, `password`, `type`) VALUES
+(1, 'Alena', 'abcdef', 1),
+(2, 'Pepe', 'pepe', 2);
 
 --
 -- Indexes for table `Devices`
@@ -63,8 +74,17 @@ ALTER TABLE `Devices`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for dumped tables
+--
+
+ALTER TABLE `Users`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
+ALTER TABLE `Users`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `Devices`

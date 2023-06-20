@@ -2,18 +2,16 @@
     <img src="doc/gotoiot-logo.png" alt="logo" title="Goto IoT" align="right" width="60" height="60" />
 </a>
 
-Web App Full Stack Base
+Web App Full Stack - CEIoT 8Co23
 =======================
 
-*Ayudaría mucho si apoyaras este proyecto con una ⭐ en Github!*
+Este proyecto es una aplicación web fullstack basada en la [Web App Full Stack Base](https://github.com/mramos88/app-fullstack-base-2023-i08) provista en la cátedra de Desarrollo de Aplicaciones Web para la [Carrera de Especialización en Internet de las Cosas](https://lse.posgrados.fi.uba.ar/posgrados/especializaciones/internet-de-las-cosas) de la Universidad de Buenos Aires.
 
-Este proyecto es una aplicación web fullstack que se ejecuta sobre el ecosistema `Docker`. Está compuesta por un compilador de `TypeScript` que te permite utilizar este superset de JavaScript para poder programar un `cliente web`. También tiene un servicio en `NodeJS` que te permite ejecutar código en backend y al mismo tiempo disponibilizar el código del cliente web para interactar con el servicio. Además tiene una `base de datos` MySQL que puede interactuar con el backend para guardar y consultar datos, y de manera adicional trae un `administrador` de base de datos para poder administrar la base en caso que lo necesites.
+La aplicación se ejecuta sobre el ecosistema `Docker`. Está compuesta por un compilador de `TypeScript` que permite utilizar este superset de JavaScript para poder programar un `cliente web` como una una Single Page Application (SPA). También tiene un servicio en `NodeJS` que permite ejecutar código en backend y al mismo tiempo disponibilizar el código del cliente web para interactar con el servicio. Además tiene una `base de datos` MySQL que puede interactuar con el backend para guardar y consultar datos. La base de datos trae un `administrador` de base de datos para poder administrarla, en caso de que sea necesario.
 
-La aplicación IoT de base que viene con este proyecto se encarga de crear una tabla llamada `Devices` en la base de datos, y la idea es que vos puedas desarrollar el código de backend y frontend que te permita controlar desde el navegador el estado de los devices de un hogar inteligente - *como pueden ser luces, TVs, ventiladores, persianas, enchufes y otros* - y almacenar los estados de cada uno en la base de datos. 
+La aplicación IoT que viene con este proyecto se encarga de crear dos tablas (`Devices` y `Users`) en la base de datos y también crea algunos dispositivos y usuarios de ejemplo. Asimismo, la aplicación contiene código de backend y frontend para controlar, desde un navegador web, el estado de los dispositivos de un hogar inteligente (en este caso se definen dos tipos a modo de ejemplo: lámpara y persiana) y almacenar los estados de cada uno en la base de datos. 
 
-Realizando estas tareas vas a a tener una aplicación fullstack IoT del mundo real que utiliza tecnologías actuales en la que un backend es capaz de interactuar con una DB para cumplir con las peticiones de control que se le mandan desde el cliente web.
-
-En esta imagen podés ver una posible implementación del cliente web que controla los artefactos del hogar.
+En esta imagen podés ver una posible implementación del cliente web que controla los artefactos del hogar:
 
 ![architecture](doc/webapp-example-1.png)
 
@@ -155,42 +153,274 @@ En la siguiente ilustración podés ver cómo está organizado el proyecto para 
 En esta sección podés ver los detalles específicos de funcionamiento del código y que son los siguientes.
 
 <details><summary><b>Mira los detalles de implementación</b></summary><br>
+### Tipos de dispositivos
+
+La aplicación soporta 2 tipos de dispositivos:
+    
+    1- Luces
+    2- Persianas
+
+Los dispositivos del tipo 1 poseen un switch para encenderlos o apagarlos, los del tipo 2 poseen un slider para establecer su valor de estado que representa el porcentaje de apertura o cierre (0% - completamente cerrado; 100% - completamente abierto).
 
 ### Agregar un dispositivo
 
-Completá los pasos para agregar un dispositivo desde el cliente web.
+Para agregar un dispositivo desde el cliente web se debe acceder a la aplicación mediante la URL: http://localhost:8000/.
+
+Si es la primera vez que ingresa, se deberá crear un usuario nuevo haciendo click sobre el botón con el ícono "+" y luego completando todos los datos solicitados (no se podrá cargar un usuario nuevo si no se introducen todos los datos).
+
+![image](/doc/agregarusuario.png)
+
+Para acceder al panel de dispositivos se deberá introducir un usuario y contraseña (si no se introduce usuario o contraseña, se desplegará un toast indicando que se requieren completar todos los datos).
+
+![image](/doc/login.png)
+
+Desde esta pantalla, se debe hacer click en el botón con el signo "+" en la parte inferior de la grilla. Esta acción abrirá un modal para la creación de un nuevo dispositivo, donde se deberán introducir todos los datos (en caso de no completarlos se desplegará un toast indicando que se requieren completar todos los datos).
+
+![image](/doc/nuevodispositivo.png)
+
+También es posible eliminar dispositivos o modificar sus parámetros mediante los botones inferiores de cada panel. 
+* Al hacer click en el botón "Eliminar" se despliega un modal para confirmar la acción donde se muestran los datos del dispositivo.
+
+![image](/doc/eliminardispositivo.png)
+
+* Al hacer click en el botón "Editar" se despliega un modal similar al que se muestra para agregar un dispositivo nuevo, donde se podrán editar los parámetros del dispositivo.
+
+![image](/doc/editardispositivo.png)
 
 ### Frontend
 
-Completá todos los detalles sobre cómo armaste el frontend, sus interacciones, etc.
+El frontend fue desarrollado con TypeScript. En la clase *Main* se implementan los métodos necesarios para gestionar las acciones solicitadas por el usuario desde la pagina web. La implementación del **event listener** permite que las acciones que el usuario realiza en la interfaz (por ejemplo, presionar un botón) tengan un nexo con el frontend. Esto habilita las siguientes funcionalidades:
+    
+    1- Autenticación mediante usuario y contraseña al panel de control
+    2- Crear un nuevo usuario
+    3- Listar todos los dispositivos creados en una grilla mediante *cards*
+    4- Crear un nuevo dispositivo
+    5- Modificar el estado de un dispositivo
+    6- Editar un dispositivo existente    
+    7- Eliminar un dispositivo existente 
+
+Las validaciones de los datos de usuario y dispositivos se realiza tanto en el frontend como en el backend.    
+    
+Al ejecutar cada una de estas funcionalidades, el frontend realiza llamadas HTTP al backend para poder obtener el resultado esperado y en algunos casos se emitirá un mensaje tipo *toast* para informar al usuario si la operación tuvo éxito o falla. 
+
+En la clase *Framework* se definen los métodos necesarios para delegar todas las peticiones (GET,POST,PUT y DELETE) al backend y gestiona las alertas relacionadas con estas peticiones.
 
 ### Backend
 
-Completá todos los detalles de funcionamiento sobre el backend, sus interacciones con el cliente web, la base de datos, etc.
+Las tecnologías utilizadas para el desarrollo del backend son NodeJS utilizando ExpressJS.
+
+Los datos se almacenan en una base de datos MySQL persistente con las siguientes tablas:
+1. Users:
+    *   id: identificador único de cada usuario.
+    *   username: nombre del usuario.
+    *   password: contraseña del usuario.
+
+> NOTA (punto a mejorarar): no se recomienda almacenar contraseñas directamente en la base de datos. Se recomienda utilizar técnicas de encriptación para almacenar y verificar las contraseñas de forma segura.
+
+2. Devices:
+    *   id: identificador único de cada dispositivo.
+    *   name: nombre del dispositivo.
+    *   description: descripción del dispositivo.
+    *   state: estado actual del dispositivo (0/1 para lámpara, 0 a 100 para persiana).
+    *   type: tipo de dispositivo (1 para lámpara, 2 para persiana).
+    
+En el archivo *index.js* que se encuentra en la raíz de la carpeta "backend" están definidos los parámetros de conexión a la base de datos y los *endpoints* de los dispositivos. Esto permite efectuar las siguientes acciones:
+    1- Validar un usuario por el *username* y *password*
+    2- Crear un usuario nuevo
+    3- Obtener todos los dispositivos
+    4- Obtener los datos de un dispositivo por su ID
+    5- Crear un un dispositivo nuevo
+    6- Modificar los datos de un dispositivo
+    7- Actualizar el estado de un dispositivo
+    8- Eliminar un dispositivo
+
+Cada endpoint hace una validación inicial de y devuelve al frontend los siguientes códigos, junto con un mensaje descriptivo:
+    * 400: error de comunicación a la base de datos u otro tipo de error según la operación
+    * 401: usuario no existente
+    * 200: operación realizada con éxito
+    * 201: dato insertado a la base de datos con éxito
 
 <details><summary><b>Ver los endpoints disponibles</b></summary><br>
+1- Endpoint para validar el login de un usuario.
+    
+    URL: http://localhost:8000/users/login
 
-Completá todos los endpoints del backend con los metodos disponibles, los headers y body que recibe, lo que devuelve, ejemplos, etc.
+    ```json
+    {
+        "method": "post",
+        "request_headers": "application/json",
+        "response_code": 200,
+        "username": "exampleuser",
+        "password": "examplepassword"
+    }
+    ```
 
-1) Devolver el estado de los dispositivos.
+    Query SQL empleada:    
+    ```sql
+        SELECT * FROM `Users` WHERE username = ? AND password = ?
+    ```
+    
+    El *status code* de respuesta en caso de éxito será 200, con el mensaje "Ok". En caso de que la operación falle el *status code* de respuesta será 401, con el mensaje "Error". 
 
-```json
-{
-    "method": "get",
-    "request_headers": "application/json",
-    "request_body": "",
-    "response_code": 200,
-    "request_body": {
-        "devices": [
-            {
-                "id": 1,
-                "status": true,
-                "description": "Kitchen light"
-            }
-        ]
-    },
-}
-``` 
+2- Endpoint para crear un usuario nuevo.
+    
+    URL: http://localhost:8000/users/
+
+    ```json
+    {
+        "method": "post",
+        "request_headers": "application/json",
+        "response_code": 200,
+        "username": "exampleuser",
+        "password": "examplepassword",
+        "type": "1"
+    }
+    ```
+
+    Query SQL empleada:    
+    ```sql
+        INSERT INTO `Users` (`username`, `password`, `type`) VALUES (?, ?, ?)
+    ```
+    
+    El *status code* de respuesta en caso de éxito será 201, con el mensaje "Usuario creado correctamente". En caso de que la operación falle el *status code* de respuesta será 400. 
+
+
+3- Endpoint para obtener todos los dispositivos.
+    
+    URL: http://localhost:8000/devices
+    Content-Type: application/json
+
+    ```json
+    {
+        "method": "get",
+        "request_headers": "application/json",
+        "response_code": 200,
+        "request_response": [
+                {"id":1,"name":"Lampara 1","description":"Luz living","state":1,"type":1},
+                {"id":2,"name":"Lampara 2","description":"Luz cocina","state":0,"type":1},
+                ...
+                {"id":7,"name":"Velador 2","description":"Velador de la habitación.","state":0,"type":1}
+         ]
+    }
+    ```
+
+    Query SQL empleada:    
+    ```sql
+        SELECT * FROM Devices
+    ```
+    
+    El *status code* de respuesta en caso de éxito será 200. En caso de que la operación falle el *status code* de respuesta será 400. 
+    
+4- Endpoint para obtener un dispositivo específico a partir de su ID.
+    
+    URL: http://localhost:8000/devices/:id
+    
+    Ejemplo: http://localhost:8000/devices/2
+    
+    ```json
+    {
+        "method": "get",
+        "request_headers": "application/json",
+        "response_code": 200,
+        "request_response": {"id":2,"name":"Lampara 2","description":"Luz cocina","state":0,"type":1},
+    }
+    ```
+
+    Query SQL empleada:    
+    ```sql
+        SELECT * FROM Devices WHERE id = ?
+    ```
+        
+    El *status code* de respuesta en caso de éxito será 200. En caso de que la operación falle debido a que el dispositivo no existe u otro motivo, el status code de respuesta será 400.
+    
+5- Endpoint para crear un nuevo dispositivo.
+    
+    URL: http://localhost:8000/devices
+    
+    ```json
+    {
+        "method": "post",
+        "request_headers": "application/json",
+        "response_code": 200,
+        "payload": { name: "Example", description: "Example", type: 1, state: 0 },
+        "request_response": {"id": 8},
+    }
+    ```
+
+    Query SQL empleada:    
+    ```sql
+        INSERT INTO `Devices` (`name`, `description`, `state`, `type`) VALUES (?, ?, ?, ?)
+    ```
+    
+    El *status code* de respuesta en caso de éxito será 201. En caso de que la operación falle debido a que el dispositivo no existe u otro motivo, el status code de respuesta será 400.
+    
+6- Endpoint para modificar un dispositivo específico a partir de su ID.
+    
+    URL: http://localhost:8000/devices/:id
+    
+    Ejemplo: http://localhost:8000/devices/8
+    
+    ```json
+    {
+        "method": "put",
+        "request_headers": "application/json",
+        "response_code": 200,
+        "payload": { id: 8, name: "Example", description: "Example", type: 2, state: 0 },
+        "request_response": {"changedRows": 1},
+    }
+    ```
+
+    Query SQL empleada:    
+    ```sql
+        UPDATE `Devices` SET `name` = ?, `description` = ? , `type` = ? WHERE `id` = ?
+    ```
+
+    El *status code* de respuesta en caso de éxito será 200. En caso de que la operación falle debido a que el dispositivo no existe u otro motivo, el status code de respuesta será 400.
+
+7- Endpoint para cambiar el estado de un dispositivo.
+    
+    URL: http://localhost:8000/devices/:id
+    
+    Ejemplo: http://localhost:8000/devices/8
+    
+    ```json
+    {
+        "method": "put",
+        "request_headers": "application/json",
+        "response_code": 200,
+        "payload": { id: 8, state: 20 },
+        "request_response": {"changedRows": 1},
+    }
+    ```
+
+    Query SQL empleada:    
+    ```sql
+        UPDATE `Devices` SET `state` = ? WHERE `id` = ?
+    ```
+
+    El *status code* de respuesta en caso de éxito será 200. En caso de que la operación falle debido a que el dispositivo no existe u otro motivo, el status code de respuesta será 400.
+
+8- Endpoint para eliminar un dispositivo específico a partir de su id.
+    
+    URL: http://localhost:8000devices/:id
+    
+    Ejemplo: http://localhost:8000/devices/8
+    
+    ```json
+    {
+        "method": "delete",
+        "request_headers": "application/json",
+        "response_code": 200,
+        "request_response": "deleted",
+    }
+    ```
+
+    Query SQL empleada:    
+    ```sql
+        DELETE FROM Devices WHERE id = ?
+    ```
+    
+    El *status code* de respuesta en caso de éxito será 200. En caso de que la operación falle debido a que el dispositivo no existe u otro motivo, el status code de respuesta será 400.
 
 </details>
 
