@@ -155,6 +155,7 @@ En esta sección podés ver los detalles específicos de funcionamiento del cód
 <details><summary><b>Mira los detalles de implementación</b></summary><br>
 
 **Tipos de dispositivos**
+
 La aplicación soporta 2 tipos de dispositivos:
 1. Luces
 2. Persianas
